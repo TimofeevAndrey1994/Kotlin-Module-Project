@@ -24,6 +24,7 @@ object ViewModel {
     fun getCurrentNote() = currentNote
 
     fun getCurrentArchive() = currentArchive
+
     fun addNewNote(noteTitle: String, noteText: String): Boolean{
         if (!archive.contains(currentArchive)) return false
         val note = Note(noteTitle, noteText)
@@ -36,7 +37,7 @@ object ViewModel {
     fun getAllArchives(): List<String> = archive.keys.toList()
 
     fun getAllNotesFromCurrentArchive(): List<String>? {
-       return archive[currentArchive]?.toList()?.map {
+       return archive[currentArchive]?.map {
             it.title
         }
     }

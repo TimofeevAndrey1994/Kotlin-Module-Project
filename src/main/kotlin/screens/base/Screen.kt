@@ -19,38 +19,13 @@ abstract class Screen {
     /**
         Обрабатывает пользовательский ввод
      */
-    abstract fun handleUserInput(userInput: String): EntityScreenResult?
+    abstract fun askUserInput(): EntityScreenResult?
 
     /**
         Вызывается перед показом экрана
      */
     abstract fun onBeforeShow()
 
-    protected fun getIntValue(userInput: String, itemCount: Int): Int?{
-        val userEnteredNumber: Int
-        try {
-            userEnteredNumber = userInput.toInt()
-        }
-        catch(_: NumberFormatException) {
-            println("Некорректное значение. Попробуйте еще раз!")
-            return null
-        }
-
-        if ((userEnteredNumber < 0) or ((userEnteredNumber + 1) > itemCount)){
-            println("Некорректное значение. Попробуйте еще раз!")
-            return null
-        }
-        return userEnteredNumber
-    }
-
-    protected fun getStringValue(): String{
-        var result: String
-        while (true){
-            result = scanner.nextLine()
-            if (result.trim().isNotEmpty()) break
-        }
-        return result
-    }
 }
 
 enum class EntityScreenResult{

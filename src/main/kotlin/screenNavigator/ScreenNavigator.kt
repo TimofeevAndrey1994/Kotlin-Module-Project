@@ -2,30 +2,28 @@ package screenNavigator
 
 import screens.base.EntityScreenResult
 import screens.base.Screen
-import java.util.Scanner
 
-class ScreenNavigator {
-    private val scanner = Scanner(System.`in`)
-    private val screens: MutableList<Screen> = mutableListOf()
+class ScreenNavigator(vararg screens: Screen) {
+    private val screenList: List<Screen> = screens.toList()
+
     fun start(){
         var index = 0
-        var screen = screens[index]
+        var screen = screenList[index]
         while (true) {
             screen.onBeforeShow()
             screen.show()
-            val userInput = scanner.nextLine()
-            val screenResult = screen.handleUserInput(userInput)
+            val screenResult = screen.askUserInput()
             when (screenResult) {
                 EntityScreenResult.ON_NEXT -> {
-                    if ((index + 1) > (screens.size - 1)) continue
-                    screen = screens[++index]
+                    if ((index + 1) > (screenList.size - 1)) continue
+                    screen = screenList[++index]
                     continue
                 }
                 EntityScreenResult.ON_BACK -> {
-                    if ((screens.size - 1) < 0) continue
+                    if ((screenList.size - 1) < 0) continue
                     if (screen.canExitApp)  break
                     else {
-                        screen = screens[--index]
+                        screen = screenList[--index]
                         continue
                     }
                 }
@@ -34,7 +32,4 @@ class ScreenNavigator {
         }
     }
 
-    fun addScreen(screen: Screen){
-        screens.add(screen)
-    }
 }

@@ -2,18 +2,19 @@ package screens
 
 import screens.base.EntityListScreen
 import screens.base.interfaces.Creatable
-import screens.base.interfaces.Nextable
+import utils.getStringValue
 import viewModel.ViewModel
+import java.util.function.Consumer
 
 class NoteListListScreen : EntityListScreen("Выбор заметки"){
-    override var nextable: Nextable = Nextable {index ->
-        ViewModel.setCurrentNote(index)
-    }
+
+    override var onNext: Consumer<Int> = Consumer<Int> {ind -> ViewModel.setCurrentNote(ind)}
+
     override var creator: Creatable = Creatable {
         println("Введите название заметки")
-        val noteTitle = getStringValue()
+        val noteTitle = scanner.getStringValue()
         println("Введите текст заметки")
-        val noteText = getStringValue()
+        val noteText = scanner.getStringValue()
         ViewModel.addNewNote(noteTitle, noteText)
     }
     override fun onBeforeShow() {

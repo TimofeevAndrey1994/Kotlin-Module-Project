@@ -2,6 +2,7 @@ package screens
 
 import screens.base.EntityScreenResult
 import screens.base.Screen
+import utils.getIntValue
 import viewModel.ViewModel
 
 class NoteViewDetailsScreen(override var title: String = ""): Screen() {
@@ -17,8 +18,8 @@ class NoteViewDetailsScreen(override var title: String = ""): Screen() {
         println("0. Выход")
     }
 
-    override fun handleUserInput(userInput: String): EntityScreenResult? {
-        if (getIntValue(userInput, 1) == null)  return null
+    override fun askUserInput(): EntityScreenResult? {
+        if (scanner.getIntValue(1) == null)  return null
 
         return EntityScreenResult.ON_BACK
     }

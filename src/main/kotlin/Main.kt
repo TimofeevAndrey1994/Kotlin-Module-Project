@@ -4,11 +4,8 @@ import screens.NoteListListScreen
 import screens.NoteViewDetailsScreen
 
 fun main() {
-    val screenNavigator = ScreenNavigator()
     //--- Добавляем экраны в требуемой очередности
-    screenNavigator.addScreen(ArchiveListListScreen())
-    screenNavigator.addScreen(NoteListListScreen())
-    screenNavigator.addScreen(NoteViewDetailsScreen())
+    val screenNavigator = ScreenNavigator(ArchiveListListScreen(), NoteListListScreen(), NoteViewDetailsScreen())
     //--- Запускаем приложение
     screenNavigator.start()
 }

@@ -1,11 +1,12 @@
 package screens.base
 
 import screens.base.interfaces.Creatable
-import screens.base.interfaces.Nextable
+import utils.getIntValue
+import java.util.function.Consumer
 
 abstract class EntityListScreen(override var title: String): Screen() {
     abstract var creator: Creatable
-    abstract var nextable: Nextable
+    abstract var onNext: Consumer<Int>
     private var itemCount = -1
     override var canExitApp: Boolean = false
     private var entityList: List<String>? = null
@@ -23,16 +24,15 @@ abstract class EntityListScreen(override var title: String): Screen() {
         println("${entityList?.count()?.plus(1) ?: 1}. Выход")
     }
 
-    override fun handleUserInput(userInput: String): EntityScreenResult?{
-        val userEnteredNumber = getIntValue(userInput, itemCount) ?: return null
+    override fun askUserInput(): EntityScreenResult?{
+        val userEnteredNumber = scanner.getIntValue(itemCount) ?: return null
 
         var result: EntityScreenResult? = null
-
         when(userEnteredNumber){
             0 -> creator.createEntity()
             (itemCount - 1) -> result = EntityScreenResult.ON_BACK
             else -> {
-                nextable.onNext(userEnteredNumber - 1)
+                onNext.accept(userEnteredNumber - 1)
                 result = EntityScreenResult.ON_NEXT
             }
         }

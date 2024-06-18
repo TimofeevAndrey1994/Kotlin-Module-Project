@@ -2,18 +2,20 @@ package screens
 
 import screens.base.EntityListScreen
 import screens.base.interfaces.Creatable
-import screens.base.interfaces.Nextable
+import utils.getStringValue
 import viewModel.ViewModel
+import java.util.function.Consumer
+
 
 class ArchiveListListScreen : EntityListScreen("Выбор архива"){
+
+    override var onNext: Consumer<Int> = Consumer<Int> { ind ->  ViewModel.setCurrentArchive(ind) }
+
     override var canExitApp = true
 
-    override var nextable: Nextable = Nextable {index ->
-        ViewModel.setCurrentArchive(index)
-    }
     override var creator: Creatable = Creatable {
         println("Введите название архива")
-        val archName = getStringValue()
+        val archName = scanner.getStringValue()
         if (!ViewModel.addNewArchive(archName)){
             println("Архив с именем уже существует!")
         }
